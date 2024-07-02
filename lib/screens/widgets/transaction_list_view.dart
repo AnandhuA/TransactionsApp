@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:transaction_app/models/model.dart';
 
 class TransactionListView extends StatelessWidget {
@@ -7,16 +8,32 @@ class TransactionListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: transactionList.length,
       itemBuilder: (context, index) {
+        DateTime dateTime =
+            DateTime.parse(transactionList[index].transactionTimestamp);
+        String formattedDateTime = DateFormat.yMMMd().format(dateTime);
         return ListTile(
           title: Text(transactionList[index].type),
-          trailing: transactionList[index].type == "DEBIT"
-              ? Text("-${transactionList[index].amount}")
-              : Text("+${transactionList[index].amount}"),
+          subtitle: Text(transactionList[index].mode),
+          trailing: Column(
+            children: [
+              transactionList[index].type == "DEBIT"
+                  ? Text(
+                      "-${transactionList[index].amount}",
+                      style: const TextStyle(color: Colors.red),
+                    )
+                  : Text(
+                      "+${transactionList[index].amount}",
+                      style: const TextStyle(color: Colors.green),
+                    ),
+              Text(formattedDateTime)
+            ],
+          ),
         );
       },
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }
