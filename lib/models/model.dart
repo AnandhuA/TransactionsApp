@@ -1,17 +1,16 @@
-
-class FinancialStatement {
+class AccountStatement {
   String maskedAccount;
   String linkRefNum;
   Account account;
 
-  FinancialStatement({
+  AccountStatement({
     required this.maskedAccount,
     required this.linkRefNum,
     required this.account,
   });
 
-  factory FinancialStatement.fromJson(Map<String, dynamic> json) {
-    return FinancialStatement(
+  factory AccountStatement.fromJson(Map<String, dynamic> json) {
+    return AccountStatement(
       maskedAccount: json['masked_account'],
       linkRefNum: json['link_ref_num'],
       account: Account.fromJson(json['decrypted_data']['Account']),
@@ -50,10 +49,10 @@ class Account {
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      type: json['type'],
-      maskedAccNumber: json['maskedAccNumber'],
-      version: json['version'],
-      linkedAccRef: json['linkedAccRef'],
+      type: json['type'] ?? "",
+      maskedAccNumber: json['maskedAccNumber'] ?? "",
+      version: json['version'] ?? "",
+      linkedAccRef: json['linkedAccRef'] ?? "",
       profile: Profile.fromJson(json['Profile']),
       summary: Summary.fromJson(json['Summary']),
       transactions: Transactions.fromJson(json['Transactions']),
@@ -142,14 +141,14 @@ class Holder {
 
   factory Holder.fromJson(Map<String, dynamic> json) {
     return Holder(
-      name: json['name'],
-      dob: json['dob'],
-      mobile: json['mobile'],
-      nominee: json['nominee'],
+      name: json['name'] ?? '',
+      dob: json['dob'] ?? '',
+      mobile: json['mobile'] ?? '',
+      nominee: json['nominee'] ?? '',
       landline: json['landline'] ?? '',
-      address: json['address'],
-      email: json['email'],
-      pan: json['pan'],
+      address: json['address'] ?? '',
+      email: json['email'] ?? '',
+      pan: json['pan'] ?? '',
       ckycCompliance: json['ckycCompliance'] == 'true',
     );
   }
@@ -204,19 +203,19 @@ class Summary {
 
   factory Summary.fromJson(Map<String, dynamic> json) {
     return Summary(
-      currentBalance: json['currentBalance'],
-      currency: json['currency'],
-      exchgeRate: json['exchgeRate'],
-      balanceDateTime: json['balanceDateTime'],
-      type: json['type'],
-      branch: json['branch'],
-      facility: json['facility'],
-      ifscCode: json['ifscCode'],
-      micrCode: json['micrCode'],
-      openingDate: json['openingDate'],
-      currentODLimit: json['currentODLimit'],
-      drawingLimit: json['drawingLimit'],
-      status: json['status'],
+      currentBalance: json['currentBalance'] ?? '',
+      currency: json['currency'] ?? '',
+      exchgeRate: json['exchgeRate'] ?? '',
+      balanceDateTime: json['balanceDateTime'] ?? '',
+      type: json['type'] ?? '',
+      branch: json['branch'] ?? '',
+      facility: json['facility'] ?? '',
+      ifscCode: json['ifscCode'] ?? '',
+      micrCode: json['micrCode'] ?? '',
+      openingDate: json['openingDate'] ?? '',
+      currentODLimit: json['currentODLimit'] ?? '',
+      drawingLimit: json['drawingLimit'] ?? '',
+      status: json['status'] ?? '',
       pending: Pending.fromJson(json['Pending']),
     );
   }
@@ -252,8 +251,8 @@ class Pending {
 
   factory Pending.fromJson(Map<String, dynamic> json) {
     return Pending(
-      transactionType: json['transactionType'],
-      amount: json['amount'],
+      transactionType: json['transactionType'] ?? '',
+      amount: json['amount'] ?? '',
     );
   }
 
@@ -278,8 +277,8 @@ class Transactions {
 
   factory Transactions.fromJson(Map<String, dynamic> json) {
     return Transactions(
-      startDate: json['startDate'],
-      endDate: json['endDate'],
+      startDate: json['startDate'] ?? '',
+      endDate: json['endDate'] ?? '',
       transactionList: List<Transaction>.from(
         json['Transaction'].map((x) => Transaction.fromJson(x)),
       ),
@@ -320,14 +319,14 @@ class Transaction {
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
-      type: json['type'],
-      mode: json['mode'],
-      amount: json['amount'],
-      currentBalance: json['currentBalance'],
-      transactionTimestamp: json['transactionTimestamp'],
-      valueDate: json['valueDate'],
+      type: json['type'] ?? '',
+      mode: json['mode'] ?? '',
+      amount: json['amount'] ?? '',
+      currentBalance: json['currentBalance'] ?? '',
+      transactionTimestamp: json['transactionTimestamp'] ?? '',
+      valueDate: json['valueDate'] ?? '',
       txnId: json['txnId'] ?? '',
-      narration: json['narration'],
+      narration: json['narration'] ?? '',
       reference: json['reference'] ?? '',
     );
   }
