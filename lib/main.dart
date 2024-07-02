@@ -6,7 +6,7 @@ import 'package:transaction_app/screens/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   runApp(const MyApp());
 }
 
@@ -19,9 +19,12 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => FeatchDetailsBloc()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: const HomeScreen(),
+        darkTheme: ThemeData.dark(),
+        theme: ThemeData.light(),
+        themeMode: ThemeMode.system,
       ),
     );
   }

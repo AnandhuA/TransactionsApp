@@ -22,11 +22,11 @@ class TransactionListView extends StatelessWidget {
               transactionList[index].type == "DEBIT"
                   ? Text(
                       "-${transactionList[index].amount}",
-                      style: const TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red, fontSize: 20),
                     )
                   : Text(
                       "+${transactionList[index].amount}",
-                      style: const TextStyle(color: Colors.green),
+                      style: const TextStyle(color: Colors.green, fontSize: 20),
                     ),
               Text(formattedDateTime)
             ],

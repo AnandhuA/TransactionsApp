@@ -55,24 +55,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   margin: const EdgeInsets.all(30),
                   padding: const EdgeInsets.all(20),
-                  height: 150,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.orangeAccent.shade200,
+                    color: Colors.orangeAccent.shade100,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        "Balance",
-                        style: TextStyle(fontSize: 20),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              const Text(
+                                "Current Balance",
+                                style: TextStyle(
+                                    fontSize: 17, color: Colors.black),
+                              ),
+                              Text(
+                                state.statement.account.summary.currentBalance,
+                                style: const TextStyle(
+                                    fontSize: 30, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Text(
-                        state.statement.account.summary.currentBalance,
-                        style: const TextStyle(fontSize: 30),
-                      ),
-                      Text("Type:${state.statement.account.summary.type}"),
-                      Text("Status:${state.statement.account.summary.status}")
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Type:${state.statement.account.summary.type}",
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            "Status:${state.statement.account.summary.status}",
+                            style: const TextStyle(color: Colors.black),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
