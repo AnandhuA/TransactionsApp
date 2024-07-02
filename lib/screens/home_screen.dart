@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/profile_screen.dart';
+import 'package:transaction_app/screens/widgets/shimmer_widget.dart';
 import 'package:transaction_app/screens/widgets/transaction.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,9 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocBuilder<FeatchDetailsBloc, FeatchDetailsState>(
         builder: (context, state) {
           if (state is FeatchDetailsLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const ShimmerWidget();
+            // return const Center(
+
+            //   child: CircularProgressIndicator(),
+            // );
           } else if (state is FeatchDetailsSuccessState) {
             return Column(
               children: [
@@ -69,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: const TextStyle(fontSize: 30),
                       ),
                       Text("Type:${state.statement.account.summary.type}"),
-                      Text("Type:${state.statement.account.summary.status}")
+                      Text("Status:${state.statement.account.summary.status}")
                     ],
                   ),
                 ),
