@@ -8,7 +8,7 @@ part 'featch_details_state.dart';
 
 class FeatchDetailsBloc extends Bloc<FeatchDetailsEvent, FeatchDetailsState> {
   FeatchDetailsBloc() : super(FeatchDetailsInitial()) {
-    on<FeatchAllDetailsEvent>((event, emit) async {
+    on<FeatchAllDetailsEvent>((event,  emit) async {
       emit(FeatchDetailsLoadingState());
 
       final AccountStatement? responce = await FeatchData.featchData();

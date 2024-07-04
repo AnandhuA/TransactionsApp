@@ -15,6 +15,12 @@ class TransactionListView extends StatelessWidget {
             DateTime.parse(transactionList[index].transactionTimestamp);
         String formattedDateTime = DateFormat.yMMMd().format(dateTime);
         return ListTile(
+          
+          leading: CircleAvatar(
+            child: transactionList[index].type == "DEBIT"
+                ? const Icon(Icons.call_made_outlined)
+                : const Icon(Icons.call_received),
+          ),
           title: Text(transactionList[index].type),
           subtitle: Text(transactionList[index].mode),
           trailing: Column(

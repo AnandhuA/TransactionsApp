@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:transaction_app/models/model.dart';
 import 'package:transaction_app/screens/widgets/transaction_list_view.dart';
 
-class TransactionWidget extends StatelessWidget {
+class TransactionScreen extends StatelessWidget {
   final Transactions transactions;
   final List<Transaction> debitTransactions;
   final List<Transaction> creditTransactions;
-  const TransactionWidget({
+  const TransactionScreen({
     super.key,
     required this.transactions,
     required this.debitTransactions,

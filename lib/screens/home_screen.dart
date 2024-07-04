@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/profile_screen.dart';
+import 'package:transaction_app/screens/transaction_screen.dart';
 import 'package:transaction_app/screens/widgets/shimmer_widget.dart';
-import 'package:transaction_app/screens/widgets/transaction.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -93,17 +93,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: const TextStyle(color: Colors.black),
                           )
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: TransactionWidget(
-                    transactions: state.statement.account.transactions,
-                    creditTransactions: state.creditTransactions,
-                    debitTransactions: state.debitTransactions,
-                  ),
-                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TransactionScreen(
+                                  transactions:
+                                      state.statement.account.transactions,
+                                  debitTransactions: state.debitTransactions,
+                                  creditTransactions: state.creditTransactions),
+                            ));
+                      },
+                      style: ElevatedButton.styleFrom(),
+                      child: const Text("All Transactions")),
+                )
               ],
             );
           } else {
