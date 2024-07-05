@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/core/styles.dart';
@@ -18,6 +19,11 @@ class IntroScreen extends StatelessWidget {
           child: Column(
             children: [
               const Spacer(),
+              Lottie.asset(
+                "assets/intro.json",
+                repeat: false,
+              ),
+              height35,
               ElevatedButton(
                 style: elevatedButtonStyle,
                 onPressed: () {
@@ -59,7 +65,7 @@ class IntroScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              height30
+              const Spacer()
             ],
           ),
         ),

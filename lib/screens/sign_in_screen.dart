@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/core/styles.dart';
@@ -21,7 +22,6 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state is AuthenticationErrorState) {
@@ -38,83 +38,94 @@ class SignInScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFieldWidget(
-                        labelText: "Name",
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _nameController,
-                        validation: validateName,
-                      ),
-                      height20,
-                      TextFieldWidget(
-                        labelText: "Email",
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        validation: validateEmail,
-                      ),
-                      height20,
-                      TextFieldWidget(
-                        labelText: "Password",
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _passwordController,
-                        validation: validatePassword,
-                        suffixIcon: true,
-                      ),
-                      height20,
-                      state is AuthenticationLoadingState
-                          ? const LoadingButton()
-                          : ElevatedButton(
-                              style: elevatedButtonStyle,
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  context.read<AuthenticationBloc>().add(
-                                        SignUpEvent(
-                                            name: _nameController.text,
-                                            email: _emailController.text,
-                                            password: _passwordController.text),
-                                      );
-                                }
-                              },
-                              child: const Text(
-                                "Sign In",
-                                style: TextStyle(color: whiteColor),
+          return Background(
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: SingleChildScrollView(
+                  child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          height35,
+                          const Text(
+                            "Create Account",
+                            style: TextStyle(fontSize: 50),
+                          ),
+                          height35,
+                          TextFieldWidget(
+                            labelText: "Name",
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _nameController,
+                            validation: validateName,
+                          ),
+                          height20,
+                          TextFieldWidget(
+                            labelText: "Email",
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _emailController,
+                            validation: validateEmail,
+                          ),
+                          height20,
+                          TextFieldWidget(
+                            labelText: "Password",
+                            keyboardType: TextInputType.emailAddress,
+                            controller: _passwordController,
+                            validation: validatePassword,
+                            suffixIcon: true,
+                          ),
+                          height20,
+                          state is AuthenticationLoadingState
+                              ? const LoadingButton()
+                              : ElevatedButton(
+                                  style: elevatedButtonStyle,
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthenticationBloc>().add(
+                                            SignUpEvent(
+                                                name: _nameController.text,
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text),
+                                          );
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Sign In",
+                                    style: TextStyle(color: whiteColor),
+                                  ),
+                                ),
+                          height20,
+                          Center(
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Already have an account?  ",
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: 'Login',
+                                    style: const TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => LoginScreen(),
+                                          ),
+                                        );
+                                      },
+                                  ),
+                                ],
                               ),
                             ),
-                      height20,
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            text: "Already have an account?  ",
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Login',
-                                style: const TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => LoginScreen(),
-                                      ),
-                                    );
-                                  },
-                              ),
-                            ],
                           ),
-                        ),
-                      ),
-                      height30
-                    ],
-                  )),
+                          height30
+                        ],
+                      )),
+                ),
+              ),
             ),
           );
         },

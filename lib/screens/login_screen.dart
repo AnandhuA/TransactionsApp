@@ -22,7 +22,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
           if (state is AuthenticationErrorState) {
@@ -41,76 +40,84 @@ class LoginScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Background(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFieldWidget(
-                        labelText: "Email",
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailcontroller,
-                        validation: validateEmail,
-                      ),
-                      height20,
-                      TextFieldWidget(
-                        labelText: "Password",
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _passwordcontroller,
-                        validation: validatePassword,
-                        suffixIcon: true,
-                      ),
-                      height20,
-                      state is AuthenticationLoadingState
-                          ? const LoadingButton()
-                          : ElevatedButton(
-                              style: elevatedButtonStyle,
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  context.read<AuthenticationBloc>().add(
-                                        LoginEvent(
-                                          email: _emailcontroller.text,
-                                          password: _passwordcontroller.text,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        height35,
+                        const Text(
+                          "LogIn",
+                          style:  TextStyle(fontSize: 100),
+                        ),
+                        height35,
+                        TextFieldWidget(
+                          labelText: "Email",
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailcontroller,
+                          validation: validateEmail,
+                        ),
+                        height20,
+                        TextFieldWidget(
+                          labelText: "Password",
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _passwordcontroller,
+                          validation: validatePassword,
+                          suffixIcon: true,
+                        ),
+                        height20,
+                        state is AuthenticationLoadingState
+                            ? const LoadingButton()
+                            : ElevatedButton(
+                                style: elevatedButtonStyle,
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    context.read<AuthenticationBloc>().add(
+                                          LoginEvent(
+                                            email: _emailcontroller.text,
+                                            password: _passwordcontroller.text,
+                                          ),
+                                        );
+                                  }
+                                },
+                                child: const Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    color: whiteColor,
+                                  ),
+                                ),
+                              ),
+                        height20,
+                        Center(
+                          child: RichText(
+                            text: TextSpan(
+                              text: "Don't have an account?  ",
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Sign In',
+                                  style: const TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SignInScreen(),
                                         ),
                                       );
-                                }
-                              },
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                  color: whiteColor,
+                                    },
                                 ),
-                              ),
+                              ],
                             ),
-                      height20,
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            text: "Don't have an account?  ",
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Sign In',
-                                style: const TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SignInScreen(),
-                                      ),
-                                    );
-                                  },
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

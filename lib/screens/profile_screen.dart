@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transaction_app/core/background.dart';
+import 'package:transaction_app/core/const_size.dart';
 
 import 'package:transaction_app/models/model.dart';
 
@@ -18,6 +19,7 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
+                height25,
                 Row(
                   children: [
                     const CircleAvatar(
