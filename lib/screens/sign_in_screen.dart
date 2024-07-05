@@ -90,13 +90,11 @@ class SignInScreen extends StatelessWidget {
                       Center(
                         child: RichText(
                           text: TextSpan(
-                            style: const TextStyle(color: Colors.black),
                             text: "Already have an account?  ",
                             children: <TextSpan>[
                               TextSpan(
                                 text: 'Login',
                                 style: const TextStyle(
-                                  color: Colors.black,
                                   decoration: TextDecoration.underline,
                                   fontWeight: FontWeight.w500,
                                 ),

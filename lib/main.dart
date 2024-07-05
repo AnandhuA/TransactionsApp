@@ -26,9 +26,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: IntroScreen(),
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.dark,
       ),
     );
   }

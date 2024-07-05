@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/core/styles.dart';
@@ -32,85 +33,85 @@ class LoginScreen extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(),
+                builder: (context) => const HomeScreen(),
               ),
               (route) => false,
             );
           }
         },
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFieldWidget(
-                      labelText: "Email",
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailcontroller,
-                      validation: validateEmail,
-                    ),
-                    height20,
-                    TextFieldWidget(
-                      labelText: "Password",
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _passwordcontroller,
-                      validation: validatePassword,
-                      suffixIcon: true,
-                    ),
-                    height20,
-                    state is AuthenticationLoadingState
-                        ? const LoadingButton()
-                        : ElevatedButton(
-                            style: elevatedButtonStyle,
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<AuthenticationBloc>().add(
-                                      LoginEvent(
-                                        email: _emailcontroller.text,
-                                        password: _passwordcontroller.text,
+          return Background(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFieldWidget(
+                        labelText: "Email",
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailcontroller,
+                        validation: validateEmail,
+                      ),
+                      height20,
+                      TextFieldWidget(
+                        labelText: "Password",
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _passwordcontroller,
+                        validation: validatePassword,
+                        suffixIcon: true,
+                      ),
+                      height20,
+                      state is AuthenticationLoadingState
+                          ? const LoadingButton()
+                          : ElevatedButton(
+                              style: elevatedButtonStyle,
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<AuthenticationBloc>().add(
+                                        LoginEvent(
+                                          email: _emailcontroller.text,
+                                          password: _passwordcontroller.text,
+                                        ),
+                                      );
+                                }
+                              },
+                              child: const Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            ),
+                      height20,
+                      Center(
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Don't have an account?  ",
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Sign In',
+                                style: const TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SignInScreen(),
                                       ),
                                     );
-                              }
-                            },
-                            child: const Text(
-                              "Login",
-                              style: TextStyle(
-                                color: whiteColor,
+                                  },
                               ),
-                            ),
+                            ],
                           ),
-                    height20,
-                    Center(
-                      child: RichText(
-                        text: TextSpan(
-                          style: const TextStyle(color: Colors.black),
-                          text: "Don't have an account?  ",
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Sign In',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignInScreen(),
-                                    ),
-                                  );
-                                },
-                            ),
-                          ],
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

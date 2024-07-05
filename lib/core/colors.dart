@@ -7,4 +7,6 @@ const Color whiteColor = Colors.white;
 const Color greyColor = Colors.grey;
 const Color boderColor = Colors.black;
 const Color errorColor = Colors.red;
-const Color bacgroundColor = whiteColor;
+Color bacgroundColor = const Color(0xFF1E1E1E);
+
+Color surfaceDark = Colors.black.withOpacity(0.6);

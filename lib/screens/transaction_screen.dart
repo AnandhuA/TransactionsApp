@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/models/model.dart';
 import 'package:transaction_app/screens/widgets/transaction_list_view.dart';
@@ -20,6 +21,7 @@ class TransactionScreen extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: const Text('Transactions'),
           bottom: const TabBar(
             indicatorColor: primaryColor,
@@ -30,18 +32,20 @@ class TransactionScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            TransactionListView(
-              transactionList: transactions.transactionList,
-            ),
-            TransactionListView(
-              transactionList: creditTransactions,
-            ),
-            TransactionListView(
-              transactionList: debitTransactions,
-            ),
-          ],
+        body: Background(
+          child: TabBarView(
+            children: [
+              TransactionListView(
+                transactionList: transactions.transactionList,
+              ),
+              TransactionListView(
+                transactionList: creditTransactions,
+              ),
+              TransactionListView(
+                transactionList: debitTransactions,
+              ),
+            ],
+          ),
         ),
       ),
     );
