@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/data/bloc/autentication/authentication_bloc.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/firebase_options.dart';
+import 'package:transaction_app/screens/home_screen.dart';
 
 import 'package:transaction_app/screens/intro_screen.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: IntroScreen(),
+        home: HomeScreen(),
       ),
     );
   }

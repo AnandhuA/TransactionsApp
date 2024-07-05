@@ -11,11 +11,21 @@ final class FeatchDetailsSuccessState extends FeatchDetailsState {
   final AccountStatement statement;
   final List<Transaction> debitTransactions;
   final List<Transaction> creditTransactions;
+  // final List<PieChartSectionData> pieChartSections;
+  final double totalAmount;
+  final List<PieChartSectionData> dailyPieChartSections;
+  final List<PieChartSectionData> monthlyPieChartSections;
+  final List<PieChartSectionData> yearlyPieChartSections;
 
   FeatchDetailsSuccessState({
     required this.debitTransactions,
     required this.creditTransactions,
     required this.statement,
+    // required this.pieChartSections,
+    required this.totalAmount,
+    required this.dailyPieChartSections,
+    required this.monthlyPieChartSections,
+    required this.yearlyPieChartSections,
   });
 }
 

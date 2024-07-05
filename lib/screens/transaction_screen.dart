@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/models/model.dart';
 import 'package:transaction_app/screens/widgets/transaction_list_view.dart';
 
@@ -21,6 +22,7 @@ class TransactionScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Transactions'),
           bottom: const TabBar(
+            indicatorColor: primaryColor,
             tabs: [
               Tab(text: 'All'),
               Tab(text: 'CREDIT'),

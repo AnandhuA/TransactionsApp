@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:transaction_app/core/colors.dart';
+import 'package:transaction_app/core/const_size.dart';
+import 'package:transaction_app/core/styles.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/profile_screen.dart';
 import 'package:transaction_app/screens/transaction_screen.dart';
+import 'package:transaction_app/screens/widgets/chart_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is FeatchDetailsSuccessState) {
           final formattedBalance = NumberFormat('#,##0.00').format(
               double.parse(state.statement.account.summary.currentBalance));
+
           return Scaffold(
             appBar: AppBar(
               title: Row(
@@ -50,77 +55,96 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            body: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(30),
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.orangeAccent.shade100,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
+            body: Padding(
+              padding: const EdgeInsets.all(10),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(20),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Column(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              const Text(
-                                "Current Balance",
-                                style: TextStyle(
-                                    fontSize: 17, color: Colors.black),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Current Balance",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Text(
+                                    "₹ $formattedBalance",
+                                    style: const TextStyle(fontSize: 30),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          height10,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                "Type:${state.statement.account.summary.type}",
                               ),
                               Text(
-                                "₹ $formattedBalance",
-                                style: const TextStyle(
-                                    fontSize: 30, color: Colors.black),
-                              ),
+                                "Status:${state.statement.account.summary.status}",
+                              )
                             ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "Type:${state.statement.account.summary.type}",
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                          Text(
-                            "Status:${state.statement.account.summary.status}",
-                            style: const TextStyle(color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    height20,
+                    // SizedBox(
+                    //   height: 300,
+                    //   child: ListView(
+                    //     scrollDirection: Axis.horizontal,
+                    //     children: [
+                    //       _buildPieChart(state.dailyPieChartSections, 'Daily'),
+                    //       _buildPieChart(
+                    //           state.monthlyPieChartSections, 'Monthly'),
+                    //       _buildPieChart(
+                    //           state.yearlyPieChartSections, 'Yearly'),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    ChartWidget(
+                      dailyPieChartSections: state.dailyPieChartSections,
+                      monthlyPieChartSections: state.monthlyPieChartSections,
+                      yearlyPieChartSections: state.yearlyPieChartSections,
+                    ),
+                    height20,
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TransactionScreen(
+                                transactions:
+                                    state.statement.account.transactions,
+                                debitTransactions: state.debitTransactions,
+                                creditTransactions: state.creditTransactions,
+                              ),
+                            ));
+                      },
+                      style: elevatedButtonStyle,
+                      child: const Text("All Transactions"),
+                    )
+                  ],
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TransactionScreen(
-                              transactions:
-                                  state.statement.account.transactions,
-                              debitTransactions: state.debitTransactions,
-                              creditTransactions: state.creditTransactions,
-                            ),
-                          ));
-                    },
-                    style: ElevatedButton.styleFrom(),
-                    child: const Text("All Transactions"),
-                  ),
-                )
-              ],
+              ),
             ),
           );
         } else if (state is FeatchDetailsLoadingState) {
@@ -139,4 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+
 }
