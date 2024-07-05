@@ -80,13 +80,13 @@ class FeatchDetailsBloc extends Bloc<FeatchDetailsEvent, FeatchDetailsState> {
             value: totalMonthlyDebitAmount /
                 (totalMonthlyDebitAmount + totalMonthlyCreditAmount),
             title: 'DEBIT',
-            color: Colors.red.shade300,
+            color: Colors.deepOrangeAccent,
           ),
           PieChartSectionData(
             value: totalMonthlyCreditAmount /
                 (totalMonthlyDebitAmount + totalMonthlyCreditAmount),
             title: 'CREDIT',
-            color: Colors.green.shade300,
+            color: Colors.purple.shade300,
           ),
         ];
 
@@ -114,13 +114,13 @@ class FeatchDetailsBloc extends Bloc<FeatchDetailsEvent, FeatchDetailsState> {
             value: totalYearlyDebitAmount /
                 (totalYearlyDebitAmount + totalYearlyCreditAmount),
             title: 'DEBIT',
-            color: Colors.red.shade300,
+            color: Colors.pink.shade300,
           ),
           PieChartSectionData(
             value: totalYearlyCreditAmount /
                 (totalYearlyDebitAmount + totalYearlyCreditAmount),
             title: 'CREDIT',
-            color: Colors.green.shade300,
+            color: Colors.blue.shade300,
           ),
         ];
 
@@ -132,7 +132,6 @@ class FeatchDetailsBloc extends Bloc<FeatchDetailsEvent, FeatchDetailsState> {
           monthlyPieChartSections: monthlyPieChartSections,
           yearlyPieChartSections: yearlyPieChartSections,
           totalAmount: totalAmount,
-          
         ));
       } else {
         return emit(FeatchDetailsErrorState());
