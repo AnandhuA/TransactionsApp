@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:transaction_app/core/colors.dart';
-import 'package:transaction_app/core/styles.dart';
 
 // ignore: must_be_immutable
 class TextFieldWidget extends StatefulWidget {

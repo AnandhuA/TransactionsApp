@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "796212995236",
+    "project_id": "transcation-406f0",
+    "storage_bucket": "transcation-406f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796212995236:android:9e8d9637a6b4b221c83231",
+        "android_client_info": {
+          "package_name": "com.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTk7AMWd6Q5wgxWpRJNJjEGz6JCOlF3II"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
