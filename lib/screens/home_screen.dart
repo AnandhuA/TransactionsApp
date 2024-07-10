@@ -92,20 +92,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       //   yearlyPieChartSections: state.yearlyPieChartSections,
                       // ),
                       height20,
-                      const PiGraph(),
-                      PigraphDetailsWidget(),
+
+                      PigraphDetailsWidget(
+                        electricity: state.totalElectricityTransationAmount,
+                        others: state.totalOtherTransationAmount,
+                        petrol: state.totalPeterolTransationAmount,
+                        rent: state.totalRentTransationAmount,
+                        salary: state.totalSalaryTransationAmount,
+                        saveings: state.totalSavingsTransationAmount,
+                      ),
                       height20,
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TransactionScreen(
-                                  transactions:
-                                      state.statement.account.transactions,
-                                  debitTransactions: state.debitTransactions,
-                                  creditTransactions: state.creditTransactions,
-                                ),
+                                builder: (context) => TransactionScreen(),
                               ));
                         },
                         style: elevatedButtonStyle,

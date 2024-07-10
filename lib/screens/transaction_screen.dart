@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/colors.dart';
-import 'package:transaction_app/models/model.dart';
+import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/widgets/transaction_list_view.dart';
 
 class TransactionScreen extends StatelessWidget {
-  final Transactions transactions;
-  final List<Transaction> debitTransactions;
-  final List<Transaction> creditTransactions;
+
   const TransactionScreen({
     super.key,
-    required this.transactions,
-    required this.debitTransactions,
-    required this.creditTransactions,
+    
   });
 
   @override
@@ -33,18 +30,42 @@ class TransactionScreen extends StatelessWidget {
           ),
         ),
         body: Background(
-          child: TabBarView(
-            children: [
-              TransactionListView(
-                transactionList: transactions.transactionList,
-              ),
-              TransactionListView(
-                transactionList: creditTransactions,
-              ),
-              TransactionListView(
-                transactionList: debitTransactions,
-              ),
-            ],
+          child: BlocBuilder<FeatchDetailsBloc, FeatchDetailsState>(
+            builder: (context, state) {
+              if (state is FeatchDetailsSuccessState) {
+                return TabBarView(
+                  children: [
+                    TransactionListView(
+                      transactionList:
+                          state.statement.account.transactions.transactionList,
+                    ),
+                    TransactionListView(
+                      transactionList: state.creditTransactions,
+                    ),
+                    TransactionListView(
+                      transactionList: state.debitTransactions,
+                    ),
+                  ],
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              // return TabBarView(
+              //   children: [
+              //     TransactionListView(
+              //       transactionList: transactions.transactionList,
+              //     ),
+              //     TransactionListView(
+              //       transactionList: creditTransactions,
+              //     ),
+              //     TransactionListView(
+              //       transactionList: debitTransactions,
+              //     ),
+              //   ],
+              // );
+            },
           ),
         ),
       ),

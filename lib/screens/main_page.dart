@@ -4,14 +4,14 @@ import 'package:transaction_app/data/bloc/bottam_navigation/bottam_navigation_bl
 import 'package:transaction_app/screens/analytics_screen.dart';
 import 'package:transaction_app/screens/home_screen.dart';
 import 'package:transaction_app/screens/profile_screen.dart';
-import 'package:transaction_app/screens/transations_screen.dart';
+import 'package:transaction_app/screens/transaction_screen.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
   static final List<Widget> screens = [
     const HomeScreen(),
-    const TransationsScreen(),
+    const TransactionScreen(),
     const AnalyticsScreen(),
     const ProfileScreen(),
   ];
