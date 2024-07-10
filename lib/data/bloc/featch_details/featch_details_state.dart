@@ -60,3 +60,11 @@ final class FeatchDetailsSuccessState extends FeatchDetailsState {
 }
 
 final class FeatchDetailsErrorState extends FeatchDetailsState {}
+
+final class FeatchDetailsWithDate extends FeatchDetailsState {
+  final List<Transaction> listofTransactionswithDate;
+
+  FeatchDetailsWithDate({required this.listofTransactionswithDate});
+}
+
+final class FeatchAnalyticsState extends FeatchDetailsState {}

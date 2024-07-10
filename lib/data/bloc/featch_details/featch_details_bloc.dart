@@ -144,5 +144,77 @@ class FeatchDetailsBloc extends Bloc<FeatchDetailsEvent, FeatchDetailsState> {
         return emit(FeatchDetailsErrorState());
       }
     });
+    on<FeatchIteamWithDate>((event, emit) async {
+      emit(FeatchDetailsLoadingState());
+      print(event.date);
+      final AccountStatement? response = await FeatchData.featchData();
+
+      if (response != null) {
+        List<Transaction> allTransactions =
+            response.account.transactions.transactionList;
+        final List<Transaction> transactionsWithDate =
+            allTransactions.where((transaction) {
+          // Convert transaction.valueDate to DateTime for comparison
+          DateTime transactionDate = DateTime.parse(transaction.valueDate);
+
+          return transactionDate.year == event.date.year &&
+              transactionDate.month == event.date.month;
+          // transactionDate.day == event.date.day;
+        }).toList();
+        emit(FeatchDetailsWithDate(
+            listofTransactionswithDate: transactionsWithDate));
+      } else {
+        emit(FeatchDetailsErrorState());
+      }
+    });
+
+    on<FeatchAnalyticsEvent>(
+      (event, emit)async {
+        emit(FeatchDetailsLoadingState());
+          final AccountStatement? response = await FeatchData.featchData();
+
+      if (response != null) {
+        List<Transaction> allTransactions =
+            response.account.transactions.transactionList;
+
+               List<Transaction> creditTransactions = allTransactions
+            .where((transaction) => transaction.type == 'CREDIT')
+            .toList();
+        List<Transaction> debitTransactions = allTransactions
+            .where((transaction) => transaction.type == 'DEBIT')
+            .toList();
+
+        double totalDebitAmount = debitTransactions.fold(
+            0.0, (sum, transaction) => sum + double.parse(transaction.amount));
+        double totalCreditAmount = creditTransactions.fold(
+            0.0, (sum, transaction) => sum + double.parse(transaction.amount));
+
+
+              List<Transaction> savingsTransation =
+            allTransactions.where((transaction) {
+          return transaction.narration
+              .toLowerCase()
+              .contains("MutualFunds".toLowerCase());
+        }).toList();
+        double totalSavingsTransationAmount = savingsTransation.fold(
+            0.0, (sum, transaction) => sum + double.parse(transaction.amount));
+
+
+              List<Transaction> policyTransation =
+            allTransactions.where((transaction) {
+          return transaction.narration
+              .toLowerCase()
+              .contains("POLICYBAZAAR".toLowerCase());
+        }).toList();
+        double totalPolicyTransationAmount = policyTransation.fold(
+            0.0, (sum, transaction) => sum + double.parse(transaction.amount));
+
+
+
+            
+            }
+
+      },
+    );
   }
 }

@@ -5,9 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/const_size.dart';
-import 'package:transaction_app/core/styles.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
-import 'package:transaction_app/screens/transaction_screen.dart';
 import 'package:transaction_app/screens/widgets/card_widget.dart';
 import 'package:transaction_app/screens/widgets/pi_graph.dart';
 
@@ -102,17 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         saveings: state.totalSavingsTransationAmount,
                       ),
                       height20,
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TransactionScreen(),
-                              ));
-                        },
-                        style: elevatedButtonStyle,
-                        child: const Text("All Transactions"),
-                      )
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => TransactionScreen(),
+                      //         ));
+                      //   },
+                      //   style: elevatedButtonStyle,
+                      //   child: const Text("All Transactions"),
+                      // )
                     ],
                   ),
                 ),

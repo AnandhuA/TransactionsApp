@@ -15,7 +15,7 @@ class LoadingButton extends StatelessWidget {
         onPressed: () {},
         style: elevatedButtonStyle,
         child: Lottie.asset(
-          "assets/loading (2).json",
+          "assets/Animation - 1717335743071.json",
           width: 80,
         ),
       ),

@@ -25,8 +25,14 @@ Color chartCyan = Colors.cyan.shade100;
 Color chartAmber = Colors.amber.shade100;
 Color chartLime = Colors.lime.shade100;
 
-Color otherColor = Colors.tealAccent.shade200;
-Color petrolColor = Colors.greenAccent.shade200;
-Color rentColor = Colors.redAccent.shade200;
-Color electricityColor = Colors.blueAccent.shade200;
-Color saveingsColor = Colors.orangeAccent.shade200;
+Color otherColor = const Color(0xFF53ABFF);
+Color petrolColor = Colors.orange.shade400;
+Color rentColor = Colors.redAccent.shade400;
+Color electricityColor = Colors.teal.shade400;
+Color saveingsColor = Colors.green.shade400;
+
+Color otherColor100 = Colors.tealAccent.shade100;
+Color petrolColor100 = Colors.orange.shade100;
+Color rentColor100 = Colors.redAccent.shade100;
+Color electricityColor100 = Colors.teal.shade100;
+Color saveingsColor100 = Colors.green.shade100;

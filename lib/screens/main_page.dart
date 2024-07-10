@@ -12,7 +12,7 @@ class MainPage extends StatelessWidget {
   static final List<Widget> screens = [
     const HomeScreen(),
     const TransactionScreen(),
-    const AnalyticsScreen(),
+    AnalyticsScreen(),
     const ProfileScreen(),
   ];
 

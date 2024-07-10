@@ -65,8 +65,10 @@ class ExpandableListTileState extends State<ExpandableListTile> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  child: const Center(
-                    child: Icon(Icons.abc),
+                  child: Center(
+                    child: widget.transation.type == "DEBIT"
+                        ? const Icon(Icons.call_received)
+                        : const Icon(Icons.call_made),
                   ),
                 ),
                 Expanded(

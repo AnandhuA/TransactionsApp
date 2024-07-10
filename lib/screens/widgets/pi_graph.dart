@@ -1,8 +1,10 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:transaction_app/core/colors.dart';
+import 'package:transaction_app/core/const_size.dart';
 
 class PiGraph extends StatelessWidget {
   final double saveings;
@@ -37,7 +39,7 @@ class PiGraph extends StatelessWidget {
     final sections = [
       PieChartSectionData(
           gradient: LinearGradient(
-            colors: [Colors.green.shade100, saveingsColor],
+            colors: [saveingsColor100, saveingsColor],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -49,7 +51,7 @@ class PiGraph extends StatelessWidget {
           radius: calculateRadius(saveings)),
       PieChartSectionData(
         gradient: LinearGradient(
-          colors: [Colors.green.shade100, electricityColor],
+          colors: [electricityColor100, electricityColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -62,7 +64,7 @@ class PiGraph extends StatelessWidget {
       ),
       PieChartSectionData(
         gradient: LinearGradient(
-          colors: [Colors.green.shade100, rentColor],
+          colors: [rentColor100, rentColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -81,7 +83,7 @@ class PiGraph extends StatelessWidget {
       // ),
       PieChartSectionData(
         gradient: LinearGradient(
-          colors: [Colors.green.shade100, petrolColor],
+          colors: [petrolColor100, petrolColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -94,7 +96,7 @@ class PiGraph extends StatelessWidget {
       ),
       PieChartSectionData(
         gradient: LinearGradient(
-          colors: [Colors.green.shade100, otherColor],
+          colors: [otherColor100, otherColor],
           begin: Alignment.bottomRight,
           end: Alignment.topCenter,
         ),
@@ -112,7 +114,13 @@ class PiGraph extends StatelessWidget {
       width: double.infinity,
       child: PieChart(
         PieChartData(
+          borderData: FlBorderData(show: true, border: Border.all()),
           sections: sections,
+          pieTouchData: PieTouchData(
+            enabled: true,
+            touchCallback: (p0, p1) {},
+          ),
+
           // titlePositionPercentageOffset: 0.55,
         ),
         swapAnimationDuration: const Duration(seconds: 2), // Optional
@@ -163,6 +171,8 @@ class PigraphDetailsWidget extends StatelessWidget {
           others: others,
           petrol: petrol,
         ),
+        height30,
+        height20,
         SizedBox(
           height: 150,
           width: double.infinity,
