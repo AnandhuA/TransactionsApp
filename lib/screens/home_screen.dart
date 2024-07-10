@@ -1,8 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:ui';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -10,11 +7,9 @@ import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/core/styles.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
-import 'package:transaction_app/screens/profile_screen.dart';
-import 'package:transaction_app/screens/splash_screen.dart';
 import 'package:transaction_app/screens/transaction_screen.dart';
-import 'package:transaction_app/screens/widgets/chart_widget.dart';
-import 'package:transaction_app/screens/widgets/confirmation_diloge.dart';
+import 'package:transaction_app/screens/widgets/card_widget.dart';
+import 'package:transaction_app/screens/widgets/pi_graph.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,43 +40,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreen(
-                              statement: state.statement,
-                            ),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => ProfileScreen(
+                      //         statement: state.statement,
+                      //       ),
+                      //     ));
                     },
                     icon: const CircleAvatar(
                       child: Icon(Icons.person),
                     ),
                   ),
-                  Text(
-                    state.statement.account.profile.holders.holder.name,
+                  Expanded(
+                    child: Text(
+                      state.statement.account.profile.holders.holder.name,
+                      overflow: TextOverflow.fade,
+                    ),
                   )
                 ],
               ),
               actions: [
                 IconButton(
-                    onPressed: () {
-                      confirmationDiloge(
-                        context: context,
-                        title: "Confirm Logout",
-                        confirmBtn: () async {
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SplashScreen(),
-                            ),
-                            (route) => false,
-                          );
-                        },
-                        content: "Are you sure you want to log out?",
-                      );
-                    },
-                    icon: const Icon(Icons.logout))
+                    onPressed: () {}, icon: const Icon(Icons.notifications)),
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.graphic_eq_sharp))
               ],
             ),
             body: Background(
@@ -91,90 +74,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ProfileScreen(statement: state.statement),
-                            )),
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(20),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                            color: Colors.white.withOpacity(0.1),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.1),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(0.2),
-                                    width: 1.5,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Current Balance",
-                                              style: TextStyle(fontSize: 17),
-                                            ),
-                                            Text(
-                                              "₹ $formattedBalance",
-                                              style:
-                                                  const TextStyle(fontSize: 30),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    height10,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text(
-                                          "Type: ${state.statement.account.summary.type}",
-                                        ),
-                                        Text(
-                                          "Status: ${state.statement.account.summary.status}",
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                        // onTap: () => Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) =>
+                        //           ProfileScreen(statement: state.statement),
+                        //     )),
+                        child: CardWidget(
+                          formattedBalance: formattedBalance,
+                          statement: state.statement,
                         ),
                       ),
                       height20,
-                      ChartWidget(
-                        dailyPieChartSections: state.dailyPieChartSections,
-                        monthlyPieChartSections: state.monthlyPieChartSections,
-                        yearlyPieChartSections: state.yearlyPieChartSections,
-                      ),
+                      // ChartWidget(
+                      //   dailyPieChartSections: state.dailyPieChartSections,
+                      //   monthlyPieChartSections: state.monthlyPieChartSections,
+                      //   yearlyPieChartSections: state.yearlyPieChartSections,
+                      // ),
+                      height20,
+                      const PiGraph(),
+                      PigraphDetailsWidget(),
                       height20,
                       ElevatedButton(
                         onPressed: () {

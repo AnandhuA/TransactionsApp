@@ -7,7 +7,7 @@ import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/core/styles.dart';
 import 'package:transaction_app/core/validation.dart';
 import 'package:transaction_app/data/bloc/autentication/authentication_bloc.dart';
-import 'package:transaction_app/screens/home_screen.dart';
+import 'package:transaction_app/screens/main_page.dart';
 import 'package:transaction_app/screens/sign_in_screen.dart';
 import 'package:transaction_app/screens/widgets/custom_snack_bar.dart';
 import 'package:transaction_app/screens/widgets/loading_button.dart';
@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const MainPage(),
               ),
               (route) => false,
             );
@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
                         height35,
                         const Text(
                           "LogIn",
-                          style:  TextStyle(fontSize: 100),
+                          style: TextStyle(fontSize: 100),
                         ),
                         height35,
                         TextFieldWidget(

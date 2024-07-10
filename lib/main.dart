@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/data/bloc/autentication/authentication_bloc.dart';
+import 'package:transaction_app/data/bloc/bottam_navigation/bottam_navigation_bloc.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/firebase_options.dart';
 
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
             create: (context) => FeatchDetailsBloc()),
         BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc()),
+        BlocProvider<BottamNavigationBloc>(
+            create: (context) => BottamNavigationBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

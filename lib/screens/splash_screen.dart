@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:transaction_app/core/background.dart';
-import 'package:transaction_app/screens/home_screen.dart';
 import 'package:transaction_app/screens/intro_screen.dart';
+import 'package:transaction_app/screens/main_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) => const MainPage(),
           ),
           (route) => false,
         );

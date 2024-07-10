@@ -7,8 +7,8 @@ import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/core/styles.dart';
 import 'package:transaction_app/core/validation.dart';
 import 'package:transaction_app/data/bloc/autentication/authentication_bloc.dart';
-import 'package:transaction_app/screens/home_screen.dart';
 import 'package:transaction_app/screens/login_screen.dart';
+import 'package:transaction_app/screens/main_page.dart';
 import 'package:transaction_app/screens/widgets/custom_snack_bar.dart';
 import 'package:transaction_app/screens/widgets/loading_button.dart';
 import 'package:transaction_app/screens/widgets/text_feild.dart';
@@ -31,7 +31,7 @@ class SignInScreen extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const MainPage(),
               ),
               (route) => false,
             );

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:transaction_app/core/background.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class AnalyticsScreen extends StatelessWidget {
+  const AnalyticsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('Profile'),
+        title: const Text('Analytics'),
       ),
       body: Background(
-        child: Center(
-          child: Text('Profile'),
+        child: const Center(
+          child: Text('Analytics'),
         ),
       ),
     );

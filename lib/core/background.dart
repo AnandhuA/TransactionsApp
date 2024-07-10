@@ -16,7 +16,7 @@ class Background extends StatelessWidget {
           right: 0,
           child: Container(
             height: 100,
-            width: 200,
+            width: 150,
             color: primaryColor,
           ),
         ),
@@ -24,7 +24,7 @@ class Background extends StatelessWidget {
           bottom: 0,
           child: Container(
             height: 100,
-            width: 200,
+            width: 150,
             color: secondaryColor,
           ),
         ),
