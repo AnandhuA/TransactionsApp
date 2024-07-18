@@ -103,7 +103,10 @@ class ExpandableListTileState extends State<ExpandableListTile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Bank Narration"),
+                    const Text(
+                      "Bank Narration",
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     height5,
                     Text(
                       widget.transation.narration,
@@ -112,9 +115,26 @@ class ExpandableListTileState extends State<ExpandableListTile> {
                       ),
                     ),
                     height10,
-                    const Text("Mode of Payment"),
+                    const Text(
+                      "Mode of Payment",
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     height5,
-                    Text(widget.transation.mode),
+                    Text(
+                      widget.transation.mode,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    height10,
+                    const Text(
+                      "Transaction Time",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    height5,
+                    Text(
+                      DateFormat.jm().format(DateTime.parse(
+                          widget.transation.transactionTimestamp)),
+                      style: const TextStyle(fontSize: 16),
+                    ),
                     height10,
                     Center(
                       child: ElevatedButton(

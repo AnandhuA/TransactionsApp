@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/core/background.dart';
@@ -32,8 +30,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 _showCategoryFilterModal(context);
               },
             ),
-         
-        
           ],
         ),
         body: Background(
@@ -122,15 +118,15 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              _buildCategoryButton(context, 'All'),
-              _buildCategoryButton(context, 'Credit'),
-              _buildCategoryButton(context, 'Debit'),
-              _buildCategoryButton(context, 'UPI'),
-              _buildCategoryButton(context, 'Salary'),
-              _buildCategoryButton(context, 'Petrol'),
-              _buildCategoryButton(context, 'Electricity'),
-              _buildCategoryButton(context, 'Savings'),
-              _buildCategoryButton(context, 'Others'),
+              _buildCategoryRadioButton(context, 'All', setState),
+              _buildCategoryRadioButton(context, 'Credit', setState),
+              _buildCategoryRadioButton(context, 'Debit', setState),
+              _buildCategoryRadioButton(context, 'UPI', setState),
+              _buildCategoryRadioButton(context, 'Salary', setState),
+              _buildCategoryRadioButton(context, 'Petrol', setState),
+              _buildCategoryRadioButton(context, 'Electricity', setState),
+              _buildCategoryRadioButton(context, 'Savings', setState),
+              _buildCategoryRadioButton(context, 'Others', setState),
             ],
           ),
         );
@@ -138,15 +134,18 @@ class _TransactionScreenState extends State<TransactionScreen> {
     );
   }
 
-  Widget _buildCategoryButton(BuildContext context, String category) {
-    return TextButton(
-      onPressed: () {
+  Widget _buildCategoryRadioButton(
+      BuildContext context, String category, StateSetter setState) {
+    return RadioListTile(
+      title: Text(category),
+      value: category,
+      groupValue: selectedTab,
+      onChanged: (String? value) {
         Navigator.pop(context); // Close the bottom sheet
         setState(() {
-          selectedTab = category;
+          selectedTab = value!;
         });
       },
-      child: Text(category),
     );
   }
 }
