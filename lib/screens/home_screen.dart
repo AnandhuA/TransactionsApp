@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               border: Border.all(color: primaryColor)),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               selectedMonth == null
                                   ? const Text("Select Month")

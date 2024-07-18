@@ -176,7 +176,7 @@ class PiGraphState extends State<PiGraph> {
       widget.others,
       widget.petrol
     ].reduce((a, b) => a > b ? a : b);
-    const minRadius = 70.0;
+    const minRadius = 80.0;
     const maxRadius = 100.0;
 
     double calculateRadius(double value) {
@@ -239,10 +239,10 @@ class PiGraphState extends State<PiGraph> {
         ),
         showTitle: false,
         color: otherColor,
-        value: widget.others / total * 100,
+        value: widget.others / 2 / total * 100,
         title: '${(widget.others / total * 100).toStringAsFixed(1)}%',
         radius: calculateRadius(widget.others),
-      ),
+      )
     ];
 
     return SizedBox(
@@ -270,45 +270,28 @@ class PiGraphState extends State<PiGraph> {
               ),
               centerSpaceRadius: 60,
             ),
-            swapAnimationDuration: const Duration(seconds: 2),
-            swapAnimationCurve: Curves.easeInOutCubicEmphasized,
+            swapAnimationDuration: const Duration(seconds: 5),
+            swapAnimationCurve: Curves.fastLinearToSlowEaseIn,
           ),
           Center(
-            child: Text(
-              'Total\n ₹${total.toStringAsFixed(2)}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          if (touchedIndex != -1) ...[
-            Positioned(
-              top: 10,
-              left: 10,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
+            child: touchedIndex != -1
+                ? Text(
+                    sections[touchedIndex].title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-                child: Text(
-                  'Category: ${sections[touchedIndex].title}\nValue: ${sections[touchedIndex].value.toStringAsFixed(2)}%',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  )
+                : Text(
+                    'Total\n ₹${total.toStringAsFixed(2)}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ],
       ),
     );

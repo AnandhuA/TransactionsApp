@@ -73,19 +73,18 @@ class ExpandableListTileState extends State<ExpandableListTile> {
                 ),
                 Expanded(
                   child: Text(
-                    widget.transation.type,
-                    overflow: TextOverflow.fade,
+                    widget.transation.narration,
+                    overflow: TextOverflow.clip,
                     style: const TextStyle(
                       fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Column(
                   children: [
-                    widget.transation.type == "DEBIT"
+                    widget.transation.type == "CREDIT"
                         ? Text(
-                            "+${widget.transation.amount}",
+                            widget.transation.amount,
                             style: const TextStyle(color: Colors.green),
                           )
                         : Text(

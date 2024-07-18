@@ -1,17 +1,22 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/core/background.dart';
-import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/widgets/transaction_list_view.dart';
 
-class TransactionScreen extends StatelessWidget {
+class TransactionScreen extends StatefulWidget {
   const TransactionScreen({
     super.key,
   });
 
+  @override
+  State<TransactionScreen> createState() => _TransactionScreenState();
+}
+
+class _TransactionScreenState extends State<TransactionScreen> {
+  String selectedTab = 'All';
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -19,82 +24,17 @@ class TransactionScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: const Text('Transactions'),
+          title: Text('$selectedTab Transactions'),
           actions: [
-            PopupMenuButton<String>(
-              onSelected: (String result) {
-                DateTime selectedDate = DateTime.now();
-                switch (result) {
-                  case 'This Month':
-                    selectedDate = DateTime.now();
-                    break;
-                  case 'Previous Month':
-                    selectedDate =
-                        DateTime.now().subtract(const Duration(days: 30));
-                    break;
-                  case 'This Year':
-                    selectedDate = DateTime(DateTime.now().year, 1, 1);
-                    break;
-                  case 'Previous Year':
-                    selectedDate = DateTime(DateTime.now().year - 1, 1, 1);
-                    break;
-
-                  case 'All':
-                    context
-                        .read<FeatchDetailsBloc>()
-                        .add(FeatchAllDetailsEvent());
-                    return;
-                }
-
-                context.read<FeatchDetailsBloc>().add(FeatchIteamWithDate(
-                      date: selectedDate,
-                    ));
+            IconButton(
+              icon: const Icon(Icons.filter_list),
+              onPressed: () {
+                _showCategoryFilterModal(context);
               },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'All',
-                  child: Text('All'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'This Month',
-                  child: Text('This Month'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'Previous Month',
-                  child: Text('Previous Month'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'This Year',
-                  child: Text('This Year'),
-                ),
-              ],
             ),
-            // IconButton(
-            //   icon: const Icon(Icons.calendar_today),
-            //   onPressed: () async {
-            //     final DateTime? pickedDate = await showDatePicker(
-            //       context: context,
-            //       initialDate: DateTime.now(),
-            //       firstDate: DateTime(2000),
-            //       lastDate: DateTime.now(),
-            //     );
-            //     if (pickedDate != null) {
-
-            //       context.read<FeatchDetailsBloc>().add(FeatchIteamWithDate(
-            //             date: pickedDate,
-            //           ));
-            //     }
-            //   },
-            // ),
+         
+        
           ],
-          bottom: const TabBar(
-            indicatorColor: primaryColor,
-            tabs: [
-              Tab(text: 'All'),
-              Tab(text: 'CREDIT'),
-              Tab(text: 'DEBIT'),
-            ],
-          ),
         ),
         body: Background(
           child: BlocBuilder<FeatchDetailsBloc, FeatchDetailsState>(
@@ -105,41 +45,57 @@ class TransactionScreen extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is FeatchDetailsSuccessState) {
-                return TabBarView(
-                  children: [
-                    TransactionListView(
+                switch (selectedTab) {
+                  case 'All':
+                    return TransactionListView(
                       transactionList:
                           state.statement.account.transactions.transactionList,
-                    ),
-                    TransactionListView(
+                    );
+                  case 'Credit':
+                    return TransactionListView(
                       transactionList: state.creditTransactions,
-                    ),
-                    TransactionListView(
+                    );
+                  case 'Debit':
+                    return TransactionListView(
                       transactionList: state.debitTransactions,
-                    ),
-                  ],
-                );
+                    );
+                  case 'UPI':
+                    return TransactionListView(
+                      transactionList: state.upiTransactions,
+                    );
+                  case 'Salary':
+                    return TransactionListView(
+                      transactionList: state.salaryTransation,
+                    );
+                  case 'Petrol':
+                    return TransactionListView(
+                      transactionList: state.peterolTransation,
+                    );
+
+                  case 'Electricity':
+                    return TransactionListView(
+                      transactionList: state.electricityTransation,
+                    );
+                  case 'Savings':
+                    return TransactionListView(
+                      transactionList: state.savingsTransation,
+                    );
+                  case 'Others':
+                    return TransactionListView(
+                      transactionList: state.otherTransactions,
+                    );
+                  default:
+                    return const SizedBox.shrink();
+                }
               } else if (state is FeatchDetailsWithDate) {
                 return TransactionListView(
-                    transactionList: state.listofTransactionswithDate);
+                  transactionList: state.listofTransactionswithDate,
+                );
               } else {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-              // return TabBarView(
-              //   children: [
-              //     TransactionListView(
-              //       transactionList: transactions.transactionList,
-              //     ),
-              //     TransactionListView(
-              //       transactionList: creditTransactions,
-              //     ),
-              //     TransactionListView(
-              //       transactionList: debitTransactions,
-              //     ),
-              //   ],
-              // );
             },
           ),
         ),
@@ -147,18 +103,50 @@ class TransactionScreen extends StatelessWidget {
     );
   }
 
-  // Future<void> _selectDate(BuildContext context) async {
-  //   final DateTime? pickedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime.now(),
-  //   );
-  //   log("message");
-  //   if (pickedDate != null) {
-  //     context.read<FeatchDetailsBloc>().add(FeatchIteamWithDate(
-  //           date: pickedDate,
-  //         ));
-  //   }
-  // }
+  void _showCategoryFilterModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Filter by Category',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _buildCategoryButton(context, 'All'),
+              _buildCategoryButton(context, 'Credit'),
+              _buildCategoryButton(context, 'Debit'),
+              _buildCategoryButton(context, 'UPI'),
+              _buildCategoryButton(context, 'Salary'),
+              _buildCategoryButton(context, 'Petrol'),
+              _buildCategoryButton(context, 'Electricity'),
+              _buildCategoryButton(context, 'Savings'),
+              _buildCategoryButton(context, 'Others'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCategoryButton(BuildContext context, String category) {
+    return TextButton(
+      onPressed: () {
+        Navigator.pop(context); // Close the bottom sheet
+        setState(() {
+          selectedTab = category;
+        });
+      },
+      child: Text(category),
+    );
+  }
 }
