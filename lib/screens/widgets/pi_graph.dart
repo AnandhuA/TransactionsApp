@@ -1,134 +1,8 @@
-import 'dart:developer';
-import 'dart:ui';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/core/const_size.dart';
-
-class PiGraph extends StatelessWidget {
-  final double saveings;
-  final double electricity;
-  final double rent;
-  final double salary;
-  final double others;
-  final double petrol;
-
-  const PiGraph({
-    super.key,
-    required this.saveings,
-    required this.electricity,
-    required this.rent,
-    required this.salary,
-    required this.others,
-    required this.petrol,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final total = saveings + electricity + rent + salary + others + petrol;
-    final maxValue = [saveings, electricity, rent, salary, others, petrol]
-        .reduce((a, b) => a > b ? a : b);
-    const minRadius = 70.0;
-    const maxRadius = 100.0;
-
-    double calculateRadius(double value) {
-      return minRadius + (value / maxValue) * (maxRadius - minRadius);
-    }
-
-    final sections = [
-      PieChartSectionData(
-          gradient: LinearGradient(
-            colors: [saveingsColor100, saveingsColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          showTitle: false,
-          titleStyle: const TextStyle(color: Colors.black),
-          color: saveingsColor,
-          value: saveings / total * 100,
-          title: '${(saveings / total * 100).toStringAsFixed(1)}%',
-          radius: calculateRadius(saveings)),
-      PieChartSectionData(
-        gradient: LinearGradient(
-          colors: [electricityColor100, electricityColor],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        showTitle: false,
-        titleStyle: const TextStyle(color: Colors.black),
-        color: electricityColor,
-        value: electricity / total * 100,
-        title: '${(electricity / total * 100).toStringAsFixed(1)}%',
-        radius: calculateRadius(electricity),
-      ),
-      PieChartSectionData(
-        gradient: LinearGradient(
-          colors: [rentColor100, rentColor],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        showTitle: false,
-        titleStyle: const TextStyle(color: Colors.black),
-        color: rentColor,
-        value: rent / total * 100,
-        title: '${(rent / total * 100).toStringAsFixed(1)}%',
-        radius: calculateRadius(rent),
-      ),
-      // PieChartSectionData(
-      //   color: Colors.tealAccent.shade100,
-      //   value: salary / total * 100,
-      //   title: '${(salary / total * 100).toStringAsFixed(1)}%',
-      //   radius: calculateRadius(salary),
-      // ),
-      PieChartSectionData(
-        gradient: LinearGradient(
-          colors: [petrolColor100, petrolColor],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        showTitle: false,
-        titleStyle: const TextStyle(color: Colors.black),
-        color: petrolColor,
-        value: petrol / total * 100,
-        title: '${(petrol / total * 100).toStringAsFixed(1)}%',
-        radius: calculateRadius(petrol),
-      ),
-      PieChartSectionData(
-        gradient: LinearGradient(
-          colors: [otherColor100, otherColor],
-          begin: Alignment.bottomRight,
-          end: Alignment.topCenter,
-        ),
-        titleStyle: const TextStyle(color: Colors.black, fontSize: 10),
-        showTitle: false,
-        color: otherColor,
-        value: others / total * 100,
-        title: '${(others / total * 100).toStringAsFixed(1)}%',
-        radius: calculateRadius(others),
-      ),
-    ];
-
-    return SizedBox(
-      height: 300,
-      width: double.infinity,
-      child: PieChart(
-        PieChartData(
-          borderData: FlBorderData(show: true, border: Border.all()),
-          sections: sections,
-          pieTouchData: PieTouchData(
-            enabled: true,
-            touchCallback: (p0, p1) {},
-          ),
-
-          // titlePositionPercentageOffset: 0.55,
-        ),
-        swapAnimationDuration: const Duration(seconds: 2), // Optional
-        swapAnimationCurve: Curves.easeInOutCubicEmphasized, // Optional
-      ),
-    );
-  }
-}
 
 class PigraphDetailsWidget extends StatelessWidget {
   final double saveings;
@@ -246,6 +120,197 @@ class PigraphDetailsWidget extends StatelessWidget {
         const SizedBox(width: 10),
         Text(value, style: const TextStyle(fontSize: 18))
       ],
+    );
+  }
+}
+
+class PiGraph extends StatefulWidget {
+  final double saveings;
+  final double electricity;
+  final double rent;
+  final double salary;
+  final double others;
+  final double petrol;
+
+  const PiGraph({
+    super.key,
+    required this.saveings,
+    required this.electricity,
+    required this.rent,
+    required this.salary,
+    required this.others,
+    required this.petrol,
+  });
+
+  @override
+  PiGraphState createState() => PiGraphState();
+}
+
+class PiGraphState extends State<PiGraph> {
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    final total = widget.saveings +
+        widget.electricity +
+        widget.rent +
+        widget.salary +
+        widget.others +
+        widget.petrol;
+
+    if (total == 0.0) {
+      return Center(
+        child: Column(
+          children: [
+            Lottie.asset("assets/no transation.json", width: 150),
+            const Text("No Transaction Found")
+          ],
+        ),
+      );
+    }
+    final maxValue = [
+      widget.saveings,
+      widget.electricity,
+      widget.rent,
+      widget.salary,
+      widget.others,
+      widget.petrol
+    ].reduce((a, b) => a > b ? a : b);
+    const minRadius = 70.0;
+    const maxRadius = 100.0;
+
+    double calculateRadius(double value) {
+      return minRadius + (value / maxValue) * (maxRadius - minRadius);
+    }
+
+    final sections = [
+      PieChartSectionData(
+          gradient: LinearGradient(
+            colors: [saveingsColor100, saveingsColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          showTitle: false,
+          color: saveingsColor,
+          value: widget.saveings / total * 100,
+          title: '${(widget.saveings / total * 100).toStringAsFixed(1)}%',
+          radius: calculateRadius(widget.saveings)),
+      PieChartSectionData(
+        gradient: LinearGradient(
+          colors: [electricityColor100, electricityColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        showTitle: false,
+        color: electricityColor,
+        value: widget.electricity / total * 100,
+        title: '${(widget.electricity / total * 100).toStringAsFixed(1)}%',
+        radius: calculateRadius(widget.electricity),
+      ),
+      PieChartSectionData(
+        gradient: LinearGradient(
+          colors: [rentColor100, rentColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        showTitle: false,
+        color: rentColor,
+        value: widget.rent / total * 100,
+        title: '${(widget.rent / total * 100).toStringAsFixed(1)}%',
+        radius: calculateRadius(widget.rent),
+      ),
+      PieChartSectionData(
+        gradient: LinearGradient(
+          colors: [petrolColor100, petrolColor],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        showTitle: false,
+        color: petrolColor,
+        value: widget.petrol / total * 100,
+        title: '${(widget.petrol / total * 100).toStringAsFixed(1)}%',
+        radius: calculateRadius(widget.petrol),
+      ),
+      PieChartSectionData(
+        gradient: LinearGradient(
+          colors: [otherColor100, otherColor],
+          begin: Alignment.bottomRight,
+          end: Alignment.topCenter,
+        ),
+        showTitle: false,
+        color: otherColor,
+        value: widget.others / total * 100,
+        title: '${(widget.others / total * 100).toStringAsFixed(1)}%',
+        radius: calculateRadius(widget.others),
+      ),
+    ];
+
+    return SizedBox(
+      height: 300,
+      width: double.infinity,
+      child: Stack(
+        children: [
+          PieChart(
+            PieChartData(
+              borderData: FlBorderData(show: true, border: Border.all()),
+              sections: sections,
+              pieTouchData: PieTouchData(
+                enabled: true,
+                touchCallback: (touchEvent, pieTouchResponse) {
+                  setState(() {
+                    if (pieTouchResponse != null &&
+                        pieTouchResponse.touchedSection != null) {
+                      touchedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    } else {
+                      touchedIndex = -1;
+                    }
+                  });
+                },
+              ),
+              centerSpaceRadius: 60,
+            ),
+            swapAnimationDuration: const Duration(seconds: 2),
+            swapAnimationCurve: Curves.easeInOutCubicEmphasized,
+          ),
+          Center(
+            child: Text(
+              'Total\n ₹${total.toStringAsFixed(2)}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          if (touchedIndex != -1) ...[
+            Positioned(
+              top: 10,
+              left: 10,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Text(
+                  'Category: ${sections[touchedIndex].title}\nValue: ${sections[touchedIndex].value.toStringAsFixed(2)}%',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

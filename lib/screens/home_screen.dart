@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:transaction_app/core/background.dart';
+import 'package:transaction_app/core/colors.dart';
 import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/widgets/card_widget.dart';
+
 import 'package:transaction_app/screens/widgets/pi_graph.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,10 +20,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime? selectedMonth;
   @override
   void initState() {
     context.read<FeatchDetailsBloc>().add(FeatchAllDetailsEvent());
     super.initState();
+  }
+
+  void _pickMonth() async {
+    final pickedMonth = await showMonthYearPicker(
+      context: context,
+      initialDate: selectedMonth ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+
+    if (pickedMonth != null) {
+      setState(() {
+        selectedMonth = pickedMonth;
+      });
+      if (selectedMonth != null) {
+        context.read<FeatchDetailsBloc>().add(
+            FeateHomeDetailsWithDate(date: selectedMonth ?? DateTime.now()));
+      }
+    }
   }
 
   @override
@@ -37,15 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Row(
                 children: [
                   IconButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => ProfileScreen(
-                      //         statement: state.statement,
-                      //       ),
-                      //     ));
-                    },
+                    onPressed: () {},
                     icon: const CircleAvatar(
                       child: Icon(Icons.person),
                     ),
@@ -72,25 +87,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       InkWell(
-                        // onTap: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           ProfileScreen(statement: state.statement),
-                        //     )),
                         child: CardWidget(
                           formattedBalance: formattedBalance,
                           statement: state.statement,
                         ),
                       ),
                       height20,
-                      // ChartWidget(
-                      //   dailyPieChartSections: state.dailyPieChartSections,
-                      //   monthlyPieChartSections: state.monthlyPieChartSections,
-                      //   yearlyPieChartSections: state.yearlyPieChartSections,
-                      // ),
-                      height20,
-
+                      InkWell(
+                        onTap: _pickMonth,
+                        child: Container(
+                          width: 200,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                              border: Border.all(color: primaryColor)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              selectedMonth == null
+                                  ? const Text("Select Month")
+                                  : Text(DateFormat.yMMMM()
+                                      .format(selectedMonth!)),
+                              const Icon(Icons.arrow_drop_down_circle_outlined)
+                            ],
+                          ),
+                        ),
+                      ),
+                      height30,
                       PigraphDetailsWidget(
                         electricity: state.totalElectricityTransationAmount,
                         others: state.totalOtherTransationAmount,
@@ -100,17 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         saveings: state.totalSavingsTransationAmount,
                       ),
                       height20,
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => TransactionScreen(),
-                      //         ));
-                      //   },
-                      //   style: elevatedButtonStyle,
-                      //   child: const Text("All Transactions"),
-                      // )
                     ],
                   ),
                 ),

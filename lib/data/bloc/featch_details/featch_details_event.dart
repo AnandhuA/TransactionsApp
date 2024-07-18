@@ -19,3 +19,12 @@ final class FeatchAnalyticsEvent extends FeatchDetailsEvent {
 
   FeatchAnalyticsEvent({required this.year, required this.month});
 }
+
+
+final class FeateHomeDetailsWithDate extends FeatchDetailsEvent {
+  final DateTime date;
+
+  FeateHomeDetailsWithDate({
+    required this.date,
+  });
+}

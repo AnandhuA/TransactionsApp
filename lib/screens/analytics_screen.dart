@@ -9,10 +9,10 @@ class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({super.key});
 
   @override
-  _AnalyticsScreenState createState() => _AnalyticsScreenState();
+  AnalyticsScreenState createState() => AnalyticsScreenState();
 }
 
-class _AnalyticsScreenState extends State<AnalyticsScreen> {
+class AnalyticsScreenState extends State<AnalyticsScreen> {
   String selectedMonth = 'January';
   String selectedYear = '2024';
 
