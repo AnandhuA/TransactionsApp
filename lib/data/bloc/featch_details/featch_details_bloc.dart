@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transaction_app/models/model.dart';
@@ -147,22 +149,30 @@ class FeatchDetailsBloc extends Bloc<FeatchDetailsEvent, FeatchDetailsState> {
     on<FeatchIteamWithDate>((event, emit) async {
       emit(FeatchDetailsLoadingState());
       print(event.date);
+      List<Transaction> filteredTransactions = [];
       final AccountStatement? response = await FeatchData.featchData();
 
       if (response != null) {
         List<Transaction> allTransactions =
             response.account.transactions.transactionList;
-        final List<Transaction> transactionsWithDate =
-            allTransactions.where((transaction) {
-          // Convert transaction.valueDate to DateTime for comparison
-          DateTime transactionDate = DateTime.parse(transaction.valueDate);
+
+        filteredTransactions = allTransactions.where((transaction) {
+          // Check if transaction.valueDate can be parsed correctly
+          DateTime? transactionDate;
+          try {
+            transactionDate = DateTime.parse(transaction.transactionTimestamp);
+          } catch (e) {
+            print("Error parsing date: ${transaction.valueDate}");
+            return false;
+          }
 
           return transactionDate.year == event.date.year &&
               transactionDate.month == event.date.month;
-          // transactionDate.day == event.date.day;
         }).toList();
+        log(filteredTransactions.length.toString());
+    
         emit(FeatchDetailsWithDate(
-            listofTransactionswithDate: transactionsWithDate));
+            listofTransactionswithDate: filteredTransactions));
       } else {
         emit(FeatchDetailsErrorState());
       }

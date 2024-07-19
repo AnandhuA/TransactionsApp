@@ -39,7 +39,7 @@ class ExpandableListTileState extends State<ExpandableListTile> {
         margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.5),
-          border: Border.all(color: Colors.white),
+          border: Border.all(color: const Color.fromARGB(179, 165, 165, 165)),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),

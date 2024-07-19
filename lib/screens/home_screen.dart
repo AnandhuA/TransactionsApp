@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:transaction_app/core/background.dart';
 import 'package:transaction_app/core/colors.dart';
@@ -137,10 +138,11 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
             ),
-            body: const Background(
-                child: Center(
-              child: CircularProgressIndicator(),
-            )),
+            body: Background(
+              child: Center(
+                child: Lottie.asset("assets/loadingscreen.json", width: 200),
+              ),
+            ),
           );
         } else {
           return const Scaffold(

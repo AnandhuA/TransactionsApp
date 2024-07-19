@@ -1,6 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:transaction_app/core/background.dart';
+import 'package:transaction_app/core/colors.dart';
+import 'package:transaction_app/core/const_size.dart';
 import 'package:transaction_app/data/bloc/featch_details/featch_details_bloc.dart';
 import 'package:transaction_app/screens/widgets/transaction_list_view.dart';
 
@@ -15,6 +22,34 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   String selectedTab = 'All';
+  DateTime? selectedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<FeatchDetailsBloc>().add(FeatchAllDetailsEvent());
+  }
+
+  // void _pickMonth() async {
+  //   final pickedMonth = await showMonthYearPicker(
+  //     context: context,
+  //     initialDate: selectedMonth ?? DateTime.now(),
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime.now(),
+  //   );
+
+  //   if (pickedMonth != null) {
+  //     setState(() {
+  //       selectedMonth = pickedMonth;
+  //     });
+  //     if (selectedMonth != null) {
+  //       context
+  //           .read<FeatchDetailsBloc>()
+  //           .add(FeatchIteamWithDate(date: selectedMonth ?? DateTime.now()));
+  //     }
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,6 +59,20 @@ class _TransactionScreenState extends State<TransactionScreen> {
           backgroundColor: Colors.transparent,
           title: Text('$selectedTab Transactions'),
           actions: [
+            // IconButton(
+            //   onPressed: _pickMonth,
+            //   icon: Row(
+            //     children: [
+            //       selectedMonth == null
+            //           ? const Text("")
+            //           : Text(DateFormat.yMMMM().format(selectedMonth!)),
+            //       width10,
+            //       const Icon(
+            //         Icons.calendar_today,
+            //       ),
+            //     ],
+            //   ),
+            // ),
             IconButton(
               icon: const Icon(Icons.filter_list),
               onPressed: () {
@@ -34,11 +83,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
         ),
         body: Background(
           child: BlocBuilder<FeatchDetailsBloc, FeatchDetailsState>(
-            buildWhen: (previous, current) {
-              return current is FeatchDetailsSuccessState ||
-                  current is FeatchDetailsWithDate ||
-                  current is FeatchDetailsLoadingState;
-            },
+            // buildWhen: (previous, current) {
+            //   return current is FeatchDetailsSuccessState ||
+            //       current is FeatchDetailsWithDate ||
+            //       current is FeatchDetailsLoadingState;
+            // },
             builder: (context, state) {
               if (state is FeatchDetailsSuccessState) {
                 switch (selectedTab) {
@@ -84,12 +133,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     return const SizedBox.shrink();
                 }
               } else if (state is FeatchDetailsWithDate) {
+                log("screen:${state.listofTransactionswithDate.length.toString()}");
                 return TransactionListView(
                   transactionList: state.listofTransactionswithDate,
                 );
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: Lottie.asset("assets/loadingscreen.json", width: 200),
                 );
               }
             },
